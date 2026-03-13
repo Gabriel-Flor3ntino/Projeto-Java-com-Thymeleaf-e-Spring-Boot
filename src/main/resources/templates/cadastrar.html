@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastrar</title>
 </head>
 <body>
-  <h1 th:text="${tituloh1}">Cadastrar</h1>
+  	<h1 th:text="${tituloh1}">Cadastrar</h1>
+  	
+	<fieldset>
+		<legend>Cadastro de Usuário</legend>
+	  	<form th:action="@{/cadastrar}" th:method="post" th:object="${usuario}">
+			<p>
+				<label>Nome:</label>
+				<input type="text" name="nome" th:value="${nome}" />
+			</p>
+			
+			<p>
+			<label>Sexo:</label>
+			<input type="radio" name="sexo" value="masculino"/> Masculino
+			<input type="radio" name="sexo" value="feminino"/> Feminino
+			<input type="radio" name="sexo" value="naoResponder"/> Não responder
+			</p>
+			
+			<p>
+				<label>Login:</label>
+				<input type="text" name="login" />
+			</p>
+			
+			<p>
+				<label>Senha:</label>
+				<input type="password" name="senha"/>
+			</p>
+			
+			<p>Cargo:
+				<select>
+					<option value="backend" name="cargo">Backend</option>
+					<option value="frontend" name="cargo">Front-end</option>
+					<option value="fullstack" name="cargo">Full Stack</option>
+					<option value="mobile" name="cargo">Mobile</option>
+					<option value="devops" name="cargo">DevOps</option>
+				</select>
+			</p>
+			
+			<p>
+				<label>Habilidades: </label>
+				<input type="checkbox" value="java" />Java
+				<input type="checkbox" value="mysql" />MySQL
+				<input type="checkbox" value="springboot" />Spring Boot
+				<input type="checkbox" value="postman" />Postman
+				<input type="checkbox" value="git" />Git
+			</p>
+			
+			<button type="submit">Cadastrar</button>
+			<button type="reset">Limpar</button>
+		</form>
+	</fieldset>
 </body>
 </html>
