@@ -1,5 +1,7 @@
 package com.br.odevjava.formulario.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import com.br.odevjava.formulario.entity.Usuario;
 
 @Controller
 public class FormularioController {
+	ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	
 	// metodo http - get
 	@GetMapping("/cadastrar")
@@ -25,10 +28,9 @@ public class FormularioController {
 		IO.println(usuario.getLogin());
 		IO.println(usuario.getSenha());
 		IO.println(usuario.getCargo());
+		IO.println(usuario.getHabilidades());
 		
-		for (int i = 0; i < usuario.getHabilidades().size(); i++) {
-			IO.println(usuario.getHabilidades().get(i));
-		}
+		usuarios.add(usuario);
 		
 		return "index";
 		
@@ -39,6 +41,19 @@ public class FormularioController {
 		model.addAttribute("tituloprincipal", "Seja bem-vindo a Página inicial");
 		return "index";
 	}
+
+	/* 
+	@GetMapping("/editar")
+	public String editar(Model model) {
+		model.addAttribute("usuario", usuario);
+		return "cadastrar";
+	}
+	*/
 	
+	@GetMapping("/mostrar")
+	public String mostrar(Model model) {
+		model.addAttribute("usuarios", usuarios);
+		return "mostrar";
+	}
 		
 }
