@@ -1,6 +1,7 @@
 package com.br.odevjava.formulario.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario {
 	
@@ -9,17 +10,20 @@ public class Usuario {
 	String login;
 	String senha;
 	String cargo;
-	ArrayList<String> habilidades;
+	List<String> habilidades;
+	
+	public Usuario() {
+	}
 
 	public Usuario(String nome, String sexo, 
 					String login, String senha, 
-					String cargo, ArrayList<String> habilidades) {
+					String cargo, List<String> habilidades) {
 		this.nome = nome;
 		this.sexo = sexo;
 		this.login = login;
 		this.senha = senha;
 		this.cargo = cargo;
-		habilidades = habilidades;
+		this.habilidades = habilidades;
 	}
 
 	public String getNome() {
@@ -62,11 +66,11 @@ public class Usuario {
 		this.cargo = cargo;
 	}
 
-	public ArrayList<String> getHabilidades() {
+	public List<String> getHabilidades() {
 		return habilidades;
 	}
 
-	public void setHabilidades(ArrayList<String> habilidades) {
+	public void setHabilidades(List<String> habilidades) {
 		this.habilidades = habilidades;
 	}
 	
