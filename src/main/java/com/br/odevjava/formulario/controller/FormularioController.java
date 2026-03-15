@@ -70,5 +70,21 @@ public class FormularioController {
 		model.addAttribute("usuarios", usuarios);
 		return "mostrar";
 	}
+	
+	@GetMapping("/excluir/{cpf}")
+	public String excluir(@PathVariable String cpf, Model model) {
+			
+		for (int i=0; i<usuarios.size(); i++ ) {
+			if (usuarios.get(i).getCpf().equals(cpf)) {
+				model.addAttribute("tituloprincipal", usuarios.get(i).getNome()+" foi excluído com Sucesso!");
+				usuarios.remove(usuarios.get(i));
+				i = usuarios.size();
+				return "redirect:/";
+			}
+		}
+		
+		model.addAttribute("tituloprincipal", "Página Inicial");
+		return "redirect:/";
+	}
 		
 }
