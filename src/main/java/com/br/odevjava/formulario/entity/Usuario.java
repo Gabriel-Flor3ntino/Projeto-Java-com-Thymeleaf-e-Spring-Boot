@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-	
+	public int id;
 	String nome;
 	String sexo;
 	String login;
@@ -72,6 +72,14 @@ public class Usuario {
 
 	public void setHabilidades(List<String> habilidades) {
 		this.habilidades = habilidades;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

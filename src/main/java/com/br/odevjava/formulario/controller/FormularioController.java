@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.br.odevjava.formulario.entity.Usuario;
@@ -30,6 +31,7 @@ public class FormularioController {
 		IO.println(usuario.getCargo());
 		IO.println(usuario.getHabilidades());
 		
+		usuario.setId(usuarios.size());
 		usuarios.add(usuario);
 		
 		return "index";
@@ -41,14 +43,14 @@ public class FormularioController {
 		model.addAttribute("tituloprincipal", "Seja bem-vindo a Página inicial");
 		return "index";
 	}
-
-	/* 
-	@GetMapping("/editar")
-	public String editar(Model model) {
-		model.addAttribute("usuario", usuario);
+ 
+	@GetMapping("/editar{id}")
+	public String editar(@PathVariable int id, Model model) {
+		model.addAttribute("tituloh1", "Editar Cadastro");
+		model.addAttribute("usuario", usuarios.get(id));
 		return "cadastrar";
 	}
-	*/
+
 	
 	@GetMapping("/mostrar")
 	public String mostrar(Model model) {
