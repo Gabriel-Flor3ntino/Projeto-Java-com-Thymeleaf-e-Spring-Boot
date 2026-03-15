@@ -1,21 +1,275 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario</title>
+  <title>Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f7f5f0;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      color: #1a1a2e;
+    }
+
+    nav {
+      background: #1a1a2e;
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 58px;
+    }
+
+    .nav-brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .nav-brand span { color: #63c8a4; }
+
+    .nav-links { display: flex; gap: 4px; }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      padding: 6px 14px;
+      border-radius: 8px;
+      transition: all 0.13s;
+    }
+
+    .nav-links a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .hero {
+      background: #1a1a2e;
+      padding: 5rem 2.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: rgba(99,200,164,0.07);
+    }
+
+    .hero-inner { max-width: 640px; position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(99,200,164,0.15);
+      color: #63c8a4;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      background: #63c8a4;
+      color: #0f3d28;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 10px 22px;
+      border-radius: 10px;
+      transition: background 0.13s;
+    }
+
+    .hero-cta:hover { background: #4db891; }
+
+    .section { padding: 3rem 2.5rem; }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #6b6760;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e8e4dc;
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.13s, transform 0.13s;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card:hover { border-color: #63c8a4; transform: translateY(-2px); }
+
+    .card-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+
+    .icon-green { background: #f0fbf6; }
+    .icon-blue  { background: #e6f1fb; }
+    .icon-red   { background: #fcebeb; }
+    .icon-amber { background: #faeeda; }
+
+    .card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .card p { font-size: 12.5px; color: #6b6760; line-height: 1.6; }
+
+    .card-arrow { margin-top: auto; font-size: 18px; color: #b4b2a9; transition: color 0.13s; }
+    .card:hover .card-arrow { color: #63c8a4; }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e8e4dc;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .stat-label {
+      font-size: 11.5px;
+      color: #6b6760;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .stat-sub { font-size: 12px; color: #63c8a4; font-weight: 500; margin-top: 2px; }
+  </style>
 </head>
 <body>
-	<h1 th:text="${tituloprincipal}">Formulário HTML com Thymeleaf</h1>
-	<h2>Versão 2</h2>
-	<h3>Versão 3</h3>
-	<h4>Versão 4</h4>
-	<h5>Versão 5</h5>
-	<h6>Versão 6</h6>
-	
-	<a href="/cadastrar">Cadastrar</a>
-	<a href="/editar">Editar</a>
-	<a href="/excluir">Excluir</a>
-	<a href="/mostrar">Mostrar</a>
+
+  <nav>
+    <div class="nav-brand">RH<span>System</span></div>
+    <div class="nav-links">
+      <a href="/cadastrar">Cadastrar</a>
+      <a href="/editar">Editar</a>
+      <a href="/excluir">Excluir</a>
+      <a href="/mostrar">Mostrar</a>
+      <a href="/home">Home</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Sistema de Gerenciamento</div>
+      <h1 th:text="${tituloprincipal}">Gerencie sua equipe com facilidade</h1>
+      <p>Cadastre, edite e visualize usuários e suas habilidades em um só lugar.</p>
+      <a href="/cadastrar" class="hero-cta">Cadastrar novo usuário →</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Acesso rápido</p>
+    <div class="cards-grid">
+      <a href="/cadastrar" class="card">
+        <div class="card-icon icon-green">➕</div>
+        <h3>Cadastrar</h3>
+        <p>Adicione novos usuários com cargo e habilidades.</p>
+        <div class="card-arrow">→</div>
+      </a>
+      <a href="/mostrar" class="card">
+        <div class="card-icon icon-blue">👥</div>
+        <h3>Mostrar</h3>
+        <p>Visualize todos os usuários cadastrados no sistema.</p>
+        <div class="card-arrow">→</div>
+      </a>
+      <a href="/editar" class="card">
+        <div class="card-icon icon-amber">✏️</div>
+        <h3>Editar</h3>
+        <p>Atualize informações de usuários existentes.</p>
+        <div class="card-arrow">→</div>
+      </a>
+      <a href="/excluir" class="card">
+        <div class="card-icon icon-red">🗑️</div>
+        <h3>Excluir</h3>
+        <p>Remova usuários que não fazem mais parte do time.</p>
+        <div class="card-arrow">→</div>
+      </a>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Total de usuários</div>
+        <div class="stat-value" th:text="${totalUsuarios}">—</div>
+        <div class="stat-sub">cadastrados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Cargos disponíveis</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">Backend · Frontend · Full Stack · Mobile · DevOps</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Habilidades mapeadas</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">Java · MySQL · Spring Boot · Postman · Git</div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
