@@ -131,8 +131,13 @@
 			</p>
 			
 			<p>
-				<label>Login: </label>
-				<input type="text" th:field="*{login}" />	
+			    <label>Email: </label>
+			    <input type="text" th:field="*{email}" />
+
+			    <div class="alert alert-warning mt-2"
+			         th:if="${erroEmail}"
+			         th:text="${erroEmail}">
+			    </div>
 			</p>
 			
 			<p>
