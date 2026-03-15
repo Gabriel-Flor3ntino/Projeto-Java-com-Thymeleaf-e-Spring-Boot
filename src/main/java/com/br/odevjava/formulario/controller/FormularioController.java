@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.br.odevjava.formulario.entity.Usuario;
+import com.br.odevjava.formulario.validation.CPFValidator;
 
 @Controller
 public class FormularioController {
@@ -24,6 +25,10 @@ public class FormularioController {
 	
 	@PostMapping("/salvar")
 	public String cadastrar(@ModelAttribute Usuario usuario) {
+		if (!CPFValidator.isValid(usuario.getCpf())) {
+	        System.out.println("CPF inválido!");
+	        return "cadastrar";
+	    }
 		IO.println(usuario.getNome());	IO.println(usuario.getCpf());
 		IO.println(usuario.getSexo());	IO.println(usuario.getLogin());
 		IO.println(usuario.getSenha());	IO.println(usuario.getCargo());
