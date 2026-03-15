@@ -1,42 +1,140 @@
 
-<html>
-<head>
-	<title>Mostrar</title>
-</head>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	  <meta charset="UTF-8">
+	  <title>Mostrar</title>
+	  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Syne:wght@600&display=swap" rel="stylesheet">
+	  <style>
+	    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<body>
-	<table border="1">
-		<tr>
-			<th>Id</th>
-			<th>Nome</th>
-			<th>Cpf</th>
-			<th>Sexo</th>
-			<th>Login</th>
-			<th>Senha</th>
-			<th>Cargo</th>
-			<th>Habilidade</th>
-			<th>Editar</th>
-			<th>Excluir</th>
-		</tr>
-		
-		<tr th:each="usuario : ${usuarios}">
-			<td th:text=${usuario.id}></td>
-			<td th:text=${usuario.nome}></td>
-			<td th:text=${usuario.cpf}></td>
-			<td th:text=${usuario.sexo}></td>
-			<td th:text=${usuario.login}></td>
-			<td th:text=${usuario.senha}></td>
-			<td th:text=${usuario.cargo}></td>
-			<td th:text=${usuario.habilidades}></td>
-			<td><a th:href="@{/editar/{login}(login=${usuario.id})}">Editar</a></td>
-			<td><a th:href="@{/excluir/{cpf}(cpf=${usuario.cpf})}">Excluir</a></td>
-		</tr>
-	</table>	
+	    body {
+	      background: #f7f5f0;
+	      font-family: 'DM Sans', sans-serif;
+	      min-height: 100vh;
+	      padding: 2.5rem 1.5rem;
+	      color: #1a1a2e;
+	    }
 
-	<a href="/cadastrar">Cadastrar</a>
-	<a href="/editar">Editar</a>
-	<a href="/excluir">Excluir</a>
-	<a href="/mostrar">Mostrar</a>
-	<a href="/home">Home</a>
-</body>
+	    .page-header {
+	      display: flex;
+	      align-items: center;
+	      justify-content: space-between;
+	      margin-bottom: 1.75rem;
+	    }
+
+	    .page-header h1 {
+	      font-family: 'Syne', sans-serif;
+	      font-size: 22px;
+	      font-weight: 600;
+	    }
+
+	    .nav-links { display: flex; gap: 6px; }
+
+	    .nav-links a {
+	      text-decoration: none;
+	      font-size: 13px;
+	      font-weight: 500;
+	      color: #6b6760;
+	      padding: 6px 14px;
+	      border: 1.5px solid #e8e4dc;
+	      border-radius: 8px;
+	      background: #fff;
+	      transition: all 0.13s;
+	    }
+
+	    .nav-links a:hover { border-color: #63c8a4; color: #1a6646; background: #f0fbf6; }
+
+	    .table-card {
+	      background: #fff;
+	      border-radius: 16px;
+	      border: 1px solid #e8e4dc;
+	      overflow: hidden;
+	    }
+
+	    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+
+	    thead tr { background: #1a1a2e; }
+
+	    thead th {
+	      padding: 13px 16px;
+	      font-size: 11px;
+	      font-weight: 500;
+	      color: rgba(255,255,255,0.55);
+	      text-transform: uppercase;
+	      letter-spacing: 0.07em;
+	      text-align: left;
+	      white-space: nowrap;
+	    }
+
+	    tbody tr { border-bottom: 1px solid #f0ece4; transition: background 0.1s; }
+	    tbody tr:last-child { border-bottom: none; }
+	    tbody tr:hover { background: #fafaf8; }
+
+	    tbody td { padding: 12px 16px; color: #3a3830; vertical-align: middle; }
+
+	    a.action-btn {
+	      display: inline-flex;
+	      align-items: center;
+	      gap: 4px;
+	      text-decoration: none;
+	      font-size: 12.5px;
+	      font-weight: 500;
+	      padding: 5px 12px;
+	      border-radius: 7px;
+	      border: 1.5px solid;
+	      transition: all 0.13s;
+	    }
+
+	    a.btn-edit { color: #185fa5; border-color: #b5d4f4; background: #f4f9fe; }
+	    a.btn-edit:hover { background: #e6f1fb; border-color: #378add; }
+
+	    a.btn-del { color: #a32d2d; border-color: #f7c1c1; background: #fef8f8; }
+	    a.btn-del:hover { background: #fcebeb; border-color: #e24b4a; }
+	  </style>
+	</head>
+
+	<body>
+	  <div class="page-header">
+	    <h1>Usuários</h1>
+	    <nav class="nav-links">
+	      <a href="/cadastrar">Cadastrar</a>
+	      <a href="/editar">Editar</a>
+	      <a href="/excluir">Excluir</a>
+	      <a href="/mostrar">Mostrar</a>
+	      <a href="/home">Home</a>
+	    </nav>
+	  </div>
+
+	  <div class="table-card">
+	    <table>
+	      <thead>
+	        <tr>
+	          <th>ID</th>
+	          <th>Nome</th>
+	          <th>CPF</th>
+	          <th>Sexo</th>
+	          <th>Login</th>
+	          <th>Senha</th>
+	          <th>Cargo</th>
+	          <th>Habilidades</th>
+	          <th colspan="2">Ações</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr th:each="usuario : ${usuarios}">
+	          <td th:text="${usuario.id}"></td>
+	          <td th:text="${usuario.nome}"></td>
+	          <td th:text="${usuario.cpf}"></td>
+	          <td th:text="${usuario.sexo}"></td>
+	          <td th:text="${usuario.login}"></td>
+	          <td th:text="${usuario.senha}"></td>
+	          <td th:text="${usuario.cargo}"></td>
+	          <td th:text="${usuario.habilidades}"></td>
+	          <td><a class="action-btn btn-edit" th:href="@{/editar/{id}(id=${usuario.id})}">✏ Editar</a></td>
+	          <td><a class="action-btn btn-del" th:href="@{/excluir/{cpf}(cpf=${usuario.cpf})}">✕ Excluir</a></td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</body>
 </html>
