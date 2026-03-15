@@ -24,18 +24,31 @@ public class FormularioController {
 	
 	@PostMapping("/salvar")
 	public String cadastrar(@ModelAttribute Usuario usuario) {
-		IO.println(usuario.getNome());
-		IO.println(usuario.getSexo());
-		IO.println(usuario.getLogin());
-		IO.println(usuario.getSenha());
-		IO.println(usuario.getCargo());
+		IO.println(usuario.getNome());	IO.println(usuario.getCpf());
+		IO.println(usuario.getSexo());	IO.println(usuario.getLogin());
+		IO.println(usuario.getSenha());	IO.println(usuario.getCargo());
 		IO.println(usuario.getHabilidades());
 		
-		usuario.setId(usuarios.size());
-		usuarios.add(usuario);
+		boolean status = false;
 		
-		return "index";
+		for (int i=0; i<usuarios.size(); i++) {
+			Usuario usuario_aux = usuarios.get(i);
+			
+			if (usuario_aux.getCpf().equals(usuario.getCpf())) {
+				usuario.setId(i);
+				usuarios.set(i, usuario);
+				i = usuarios.size();
+				status = true;
+			}
+		}
 		
+		if (status == false) {
+			usuario.setId(usuarios.size());			
+			usuarios.add(usuario);
+			return "index";
+		} else {
+			return "index";	
+		}	
 	}
 	
 	@GetMapping("/home")

@@ -5,20 +5,23 @@ import java.util.List;
 
 public class Usuario {
 	public int id;
-	String nome;
-	String sexo;
-	String login;
-	String senha;
-	String cargo;
+	public String nome;
+	public String cpf;
+	public String sexo;
+	public String login;
+	public String senha;
+	public String cargo;
 	List<String> habilidades;
 	
 	public Usuario() {
 	}
 
-	public Usuario(String nome, String sexo, 
-					String login, String senha, 
-					String cargo, List<String> habilidades) {
+	public Usuario(String nome, String cpf, 
+				   String sexo, String login, 
+				   String senha, String cargo, 
+				   List<String> habilidades) {
 		this.nome = nome;
+		this.cpf = cpf;
 		this.sexo = sexo;
 		this.login = login;
 		this.senha = senha;
@@ -80,6 +83,14 @@ public class Usuario {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	
 	
